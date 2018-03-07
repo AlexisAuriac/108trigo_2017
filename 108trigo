@@ -1,0 +1,15 @@
+#!/bin/python3
+
+import sys
+import error
+
+def main(argv):
+        if len(argv) == 1 and argv[0] == "-h":
+                error.help()
+                exit(0)
+        if error.error(argv) is 84:
+                exit(84)
+        exit(0)
+
+if __name__ == "__main__":
+    main(sys.argv[1:])
