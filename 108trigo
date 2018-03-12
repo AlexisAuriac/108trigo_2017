@@ -2,11 +2,11 @@
 
 import sys
 import error
-from matrix import SquareMatrix
-#from functions import
+from Matrix import SquareMatrix
+import functions
 
 operations = {
-	"EXP": error.help
+	"EXP": functions.exp
 }
 
 def main(argv):
@@ -16,11 +16,8 @@ def main(argv):
         if error.error(argv) is 84:
                 exit(84)
         matrix = SquareMatrix(argv[1:])
-        matrix.display()
-        matrix += matrix
-        print("\nmatrix *= 2\n")
-        matrix.display()
-        #operations[argv[0]]()
+        computed = operations[argv[0]](matrix)
+        computed.display()
         exit(0)
 
 if __name__ == "__main__":

@@ -2,6 +2,7 @@
 
 import math
 import error
+import copy
 
 def create_empty_matrix(size):
         coefs = list()
@@ -15,8 +16,6 @@ class SquareMatrix:
 
         def __init__(self, coefs):
                 nb_coefs = len(coefs)
-                if nb_coefs == 0 or error.is_square(nb_coefs) is False:
-                        raise "Matrix must be a square"
                 self.size = int(math.sqrt(len(coefs)))
                 self.lines = list()
                 for i in range(self.size):
@@ -30,19 +29,26 @@ class SquareMatrix:
                                 print("%.2f" % j, end='\t')
                         print("%.2f" % i[-1])
 
+        def get_identity(self):
+                identity = copy.deepcopy(self)
+                for i in range(identity.size):
+                        for j in range(identity.size):
+                                if i == j:
+                                        identity.lines[i][j] = 1
+                                else:
+                                        identity.lines[i][j] = 0
+                return identity
+
         def __iadd__(self, matrix_add):
-                if self.size is not matrix_add.size:
-                        raise "Matrixes must of the same size"
                 for i in range(self.size):
                         for j in range(self.size):
                                 self.lines[i][j] += matrix_add.lines[i][j]
                 return self
 
-
         def __add__(self, matrix_add):
                 if self.size is not matrix_add.size:
                         raise "Matrixes must of the same size"
-                new_matrix = self
+                new_matrix = copy.deepcopy(self)
                 new_matrix += matrix_add
                 return new_matrix
 
@@ -56,17 +62,35 @@ class SquareMatrix:
                         for i in range(self.size):
                                 for j in range(self.size):
                                         for k in range(self.size):
-                                                result.lines[i][j] = self.lines[k][j] * mul.lines[i][k]
+                                                result.lines[i][j] += self.lines[k][j] * mul.lines[i][k]
                 return result
-        
+
         def __imul__(self, mul):
                 self = self * mul
+                return self
+
+        def __itruediv__(self, div):
+                if not isinstance(div, SquareMatrix):
+                        for i in range(self.size):
+                                for j in range(self.size):
+                                        self.lines[i][j] /= div
+                return self
+
+        def __truediv__(self, div):
+                result = copy.deepcopy(self)
+                if not isinstance(div, SquareMatrix):
+                        result /= div
+                return result
 
         def __ipow__(self, pow):
-                for i in range(pow):
-                        self *= self
+                cpy = copy.deepcopy(self)
+                if pow == 0:
+                        return self.get_identity()
+                for i in range(1, pow):
+                        self *= cpy
+                return self
 
         def __pow__(self, pow):
-                new_matrix = self
+                new_matrix = copy.deepcopy(self)
                 new_matrix **= pow
                 return new_matrix
