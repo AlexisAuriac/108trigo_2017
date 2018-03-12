@@ -65,6 +65,9 @@ class SquareMatrix:
                                                 result.lines[i][j] += self.lines[k][j] * mul.lines[i][k]
                 return result
 
+        def __rmul__(self, mul):
+                return self * mul
+
         def __imul__(self, mul):
                 self = self * mul
                 return self

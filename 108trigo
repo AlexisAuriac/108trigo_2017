@@ -6,7 +6,11 @@ from Matrix import SquareMatrix
 import functions
 
 operations = {
-	"EXP": functions.exp
+	"EXP": functions.exp,
+        "COS": functions.cos,
+        "COSH": functions.cosh,
+        "SIN": functions.sin,
+        "SINH": functions.sinh
 }
 
 def main(argv):
