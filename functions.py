@@ -32,3 +32,23 @@ def sinh(matrix):
     for i in range(50):
         result += 1 / math.factorial(2 * i + 1) * matrix**(2 * i + 1)
     return result
+
+def square(matrix):
+    return matrix**2
+
+def cube(matrix):
+    return matrix**3
+
+def identity(matrix):
+    return matrix.get_identity()
+
+operations = {
+        "EXP": exp,
+        "COS": cos,
+        "COSH": cosh,
+        "SIN": sin,
+        "SINH": sinh,
+        "SQUARE": square,
+        "CUBE": cube,
+        "ID": identity
+}

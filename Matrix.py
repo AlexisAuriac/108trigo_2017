@@ -29,25 +29,26 @@ class SquareMatrix:
                                 print("%.2f" % j, end='\t')
                         print("%.2f" % i[-1])
 
+        def __getitem__(self, index):
+                return self.lines[index]
+
         def get_identity(self):
                 identity = copy.deepcopy(self)
                 for i in range(identity.size):
                         for j in range(identity.size):
                                 if i == j:
-                                        identity.lines[i][j] = 1
+                                        identity[i][j] = 1
                                 else:
-                                        identity.lines[i][j] = 0
+                                        identity[i][j] = 0
                 return identity
 
         def __iadd__(self, matrix_add):
                 for i in range(self.size):
                         for j in range(self.size):
-                                self.lines[i][j] += matrix_add.lines[i][j]
+                                self[i][j] += matrix_add[i][j]
                 return self
 
         def __add__(self, matrix_add):
-                if self.size is not matrix_add.size:
-                        raise "Matrixes must of the same size"
                 new_matrix = copy.deepcopy(self)
                 new_matrix += matrix_add
                 return new_matrix
@@ -57,12 +58,12 @@ class SquareMatrix:
                 if not isinstance(mul, SquareMatrix):
                         for i in range(self.size):
                                 for j in range(self.size):
-                                        result.lines[i][j] = self.lines[i][j] * mul
+                                        result[i][j] = self[i][j] * mul
                 else:
                         for i in range(self.size):
                                 for j in range(self.size):
                                         for k in range(self.size):
-                                                result.lines[i][j] += self.lines[k][j] * mul.lines[i][k]
+                                                result[i][j] += self[k][j] * mul.lines[i][k]
                 return result
 
         def __rmul__(self, mul):
@@ -76,7 +77,7 @@ class SquareMatrix:
                 if not isinstance(div, SquareMatrix):
                         for i in range(self.size):
                                 for j in range(self.size):
-                                        self.lines[i][j] /= div
+                                        self[i][j] /= div
                 return self
 
         def __truediv__(self, div):
@@ -97,3 +98,10 @@ class SquareMatrix:
                 new_matrix = copy.deepcopy(self)
                 new_matrix **= pow
                 return new_matrix
+
+        def __eq__(self, cmp):
+                if self.size is not cmp.size:
+                        return False
+                elif self.lines is not cmp.lines:
+                        return False
+                return True

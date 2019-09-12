@@ -1,6 +1,7 @@
 #!/bin/python3
 
 import math
+import functions
 
 def help():
     print("USAGE");
@@ -18,11 +19,11 @@ def error(argv):
         return 84
     elif not is_square(len(argv[1:])):
         return 84
-    elif (argv[0] not in ("EXP", "COS", "SIN", "COSH", "SINH")):
+    elif argv[0] not in functions.operations.keys():
         return 84
     for i in argv[1:]:
-    	try:
-    		int(i)
-    	except (ValueError):
-    		return 84
+        try:
+            int(i)
+        except (ValueError):
+            return 84
     return 0
